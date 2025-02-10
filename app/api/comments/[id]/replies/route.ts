@@ -2,25 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
-export async function GET(
-    request: NextRequest,
-    { params }: { params: { id: string } } // ✅ Fixed type
-) {
-    try {
-        const id = params.id; // ✅ No need to await
-        await connectDb();
-        
-        const replies = await Comment.find({ parentComment: id })
-            .populate('author', 'username profilePicture')
-            .sort({ createdAt: -1 })
-            .lean();
+interface Context {
+  params: {
+    id: string;
+  };
+}
 
-        return NextResponse.json({ replies });
-    } catch (error) {
-        console.error('Error fetching replies:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch replies' },
-            { status: 500 }
-        );
-    }
+export async function GET(req: NextRequest, context: Context) {
+  try {
+    const { id } = context.params;
+    await connectDb();
+
+    const replies = await Comment.find({ parentComment: id })
+      .populate('author', 'username profilePicture')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return NextResponse.json({ replies });
+  } catch (error) {
+    console.error('Error fetching replies:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch replies' },
+      { status: 500 }
+    );
+  }
 }
