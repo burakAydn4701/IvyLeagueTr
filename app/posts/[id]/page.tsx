@@ -19,6 +19,7 @@ interface Post {
     };
     image?: string;
     upvotes: number;
+    upvotedBy: string[];
     createdAt: string;
 }
 
@@ -37,7 +38,7 @@ interface Comment {
 
 export default function PostDetail({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams() ?? new URLSearchParams();
     const focusedCommentId = searchParams.get('comment');
     const [post, setPost] = useState<Post | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
@@ -138,8 +139,7 @@ export default function PostDetail({ params }: { params: Promise<{ id: string }>
                     <CommentCard
                         comment={comment}
                         onReply={handleReply}
-                        isFocused={comment._id === focusedCommentId}
-                        currentUserId={session?.user?.id}
+                        currentUserId={session?.user?.id ?? null}
                     />
                 </div>
             ));
@@ -156,7 +156,10 @@ export default function PostDetail({ params }: { params: Promise<{ id: string }>
     return (
         <ContentContainer>
             <div className="max-w-3xl mx-auto p-4 space-y-6">
-                <PostCard post={post} isUpvoted={false} />
+                <PostCard 
+                    post={post} 
+                    currentUserId={session?.user?.id || null} 
+                />
                 
                 {/* Comment Input Section */}
                 <div className="bg-stone-100 rounded-lg p-4 shadow-sm">
