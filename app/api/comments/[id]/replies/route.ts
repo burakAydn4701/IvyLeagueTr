@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { type NextApiRequest } from 'next';
 import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
-interface RouteContext {
-    params: {
-        id: string;
-    }
-}
-
 export async function GET(
-    _request: NextRequest,
-    { params }: RouteContext
+    request: Request | NextApiRequest,
+    { params }: { params: Record<string, string> }
 ) {
     try {
         await connectDb();
