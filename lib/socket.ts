@@ -1,6 +1,5 @@
 import { Server as NetServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
-import { NextApiResponse } from 'next';
 
 export const initSocket = (server: NetServer) => {
     const io = new SocketIOServer(server, {

@@ -1,6 +1,4 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { ICommunity } from './community';
-import { IUser } from './user';
 
 export interface IPost extends Document {
     title: string;

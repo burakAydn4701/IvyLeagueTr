@@ -35,7 +35,6 @@ export default function Profile() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState<'posts' | 'communities'>('posts');
-    const [imageError, setImageError] = useState(false);
 
     useEffect(() => {
         const fetchProfile = async () => {
