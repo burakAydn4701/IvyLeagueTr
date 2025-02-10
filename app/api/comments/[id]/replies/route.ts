@@ -3,13 +3,14 @@ import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
 export async function GET(
-    request: NextRequest,
-    { params }: { params: { id: string } } & { searchParams: { [key: string]: string | string[] } }
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const id = (await params).id;
         await connectDb();
         
-        const replies = await Comment.find({ parentComment: params.id })
+        const replies = await Comment.find({ parentComment: id })
             .populate('author', 'username profilePicture')
             .sort({ createdAt: -1 })
             .lean();
