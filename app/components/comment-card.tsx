@@ -29,7 +29,7 @@ interface CommentProps {
 
 export default function CommentCard({ comment, isUpvoted = false, onReply, currentUserId }: CommentProps) {
     const router = useRouter();
-    const searchParams = useSearchParams();
+    const _searchParams = useSearchParams();
     const { data: session } = useSession();
     const [upvoteCount, setUpvoteCount] = useState(comment.upvotes || 0);
     const [hasUpvoted, setHasUpvoted] = useState(isUpvoted);
@@ -59,7 +59,7 @@ export default function CommentCard({ comment, isUpvoted = false, onReply, curre
         console.log('Current user:', currentUserId);
     }, [comment.author._id, currentUserId]);
 
-    const handleCommentClick = (e: React.MouseEvent) => {
+    const _handleCommentClick = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('button') || 
             (e.target as HTMLElement).closest('a')) {
             return;

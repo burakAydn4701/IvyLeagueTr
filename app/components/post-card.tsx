@@ -45,7 +45,7 @@ export default function PostCard({ post, currentUserId }: PostCardProps) {
             ? post.upvotedBy.includes(currentUserId)
             : false
     );
-    const [_showComments, setShowComments] = useState(false);
+    const [showComments, _setShowComments] = useState(false);
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(false);
@@ -245,7 +245,7 @@ export default function PostCard({ post, currentUserId }: PostCardProps) {
                     </div>
 
                     {/* Comments Section */}
-                    {_showComments && (
+                    {showComments && (
                         <div className="mt-4 space-y-4 text-gray-900">
                             <form onSubmit={handleComment} className="flex space-x-2">
                                 <input

@@ -3,15 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
-import { LogOut, UserIcon, Search } from 'lucide-react';
+import { LogOut, UserIcon, Search, Mail } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
-
-interface User {
-    email: string;
-    username: string;
-    profilePicture?: string;
-    isAdmin: boolean;
-}
 
 interface UserSearchResult {
     _id: string;
