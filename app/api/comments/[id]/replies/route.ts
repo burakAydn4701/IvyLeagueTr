@@ -3,11 +3,11 @@ import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
 export async function GET(
-    request: Request,
-    { params }: { params: Promise<{ id: string }> }
+    request: NextRequest,
+    { params }: { params: { id: string } } // ✅ Fixed type
 ) {
     try {
-        const id = (await params).id;
+        const id = params.id; // ✅ No need to await
         await connectDb();
         
         const replies = await Comment.find({ parentComment: id })
@@ -23,4 +23,4 @@ export async function GET(
             { status: 500 }
         );
     }
-} 
+}
