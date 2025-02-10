@@ -2,15 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
-type RouteSegment = {
-    params: {
-        id: string;
-    };
-};
-
 export async function GET(
     request: NextRequest,
-    { params }: RouteSegment
+    { params }: { params: { id: string } } & { searchParams: { [key: string]: string | string[] } }
 ) {
     try {
         await connectDb();
