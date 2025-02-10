@@ -1,22 +1,20 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
-interface RouteContext {
-    params: {
-        id: string;
-    }
-}
+type Context = {
+    params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+};
 
 export async function GET(
-    request: NextRequest,
-    { params }: RouteContext
+    _request: Request,
+    context: Context
 ) {
     try {
-        const { id } = params;
         await connectDb();
         
-        const replies = await Comment.find({ parentComment: id })
+        const replies = await Comment.find({ parentComment: context.params.id })
             .populate('author', 'username profilePicture')
             .sort({ createdAt: -1 })
             .lean();
