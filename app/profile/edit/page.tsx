@@ -14,7 +14,7 @@ interface User {
 
 export default function EditProfile() {
     const router = useRouter();
-    const [user, setUser] = useState<User | null>(null);
+    const [_user, setUser] = useState<User | null>(null);
     const [formData, setFormData] = useState({
         username: '',
         email: '',

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowBigUp, MessageCircle, Trash2 } from 'lucide-react';
+import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import MoreOptionsMenu from './more-options-menu';
@@ -45,7 +45,7 @@ export default function PostCard({ post, currentUserId }: PostCardProps) {
             ? post.upvotedBy.includes(currentUserId)
             : false
     );
-    const [showComments, setShowComments] = useState(false);
+    const [_showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(false);
@@ -245,7 +245,7 @@ export default function PostCard({ post, currentUserId }: PostCardProps) {
                     </div>
 
                     {/* Comments Section */}
-                    {showComments && (
+                    {_showComments && (
                         <div className="mt-4 space-y-4 text-gray-900">
                             <form onSubmit={handleComment} className="flex space-x-2">
                                 <input

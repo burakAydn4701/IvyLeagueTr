@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
-import { LogOut, User as UserIcon, Settings, Mail, Search } from 'lucide-react';
+import { LogOut, UserIcon, Search } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 
 interface User {

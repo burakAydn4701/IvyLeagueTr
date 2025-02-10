@@ -7,7 +7,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 
 export default function Login() {
-    const router = useRouter();
+    const _router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -118,7 +118,7 @@ export default function Login() {
                 </form>
 
                 <p className="mt-4 text-center text-sm text-gray-600">
-                    Don't have an account?{' '}
+                    {"Don't have an account?"}
                     <Link href="/signup" className="text-green-600 hover:text-green-700">
                         Sign up
                     </Link>
