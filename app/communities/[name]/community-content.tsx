@@ -37,6 +37,7 @@ interface Post {
         profilePicture?: string;
     };
     upvotes: number;
+    upvotedBy: string[];
     createdAt: string;
 }
 
@@ -224,7 +225,6 @@ export default function CommunityContent({ communityName }: CommunityContentProp
                             <PostCard 
                                 key={post._id} 
                                 post={post}
-                                isUpvoted={false}
                                 currentUserId={session?.user?.id || null}
                             />
                         ))
