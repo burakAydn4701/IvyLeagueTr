@@ -1,15 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
-export async function GET(
-    request: Request,
-    { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
     try {
         await connectDb();
 
-        const comment = await Comment.findById(params.id)
+        const comment = await Comment.findById(context.params.id)
             .populate('author', 'username profilePicture')
             .lean();
 
@@ -30,15 +27,12 @@ export async function GET(
     }
 }
 
-export async function POST(
-    request: Request,
-    { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, context: { params: { id: string } }) {
     try {
         await connectDb();
         const { content } = await request.json();
 
-        const parentComment = await Comment.findById(params.id);
+        const parentComment = await Comment.findById(context.params.id);
         if (!parentComment) {
             return NextResponse.json(
                 { error: 'Parent comment not found' },
@@ -48,13 +42,13 @@ export async function POST(
 
         const newComment = await Comment.create({
             content,
-            author: parentComment.author, // You'll want to get this from the session
+            author: parentComment.author,
             post: parentComment.post,
-            parentComment: params.id
+            parentComment: context.params.id
         });
 
         // Update parent comment's replies array
-        await Comment.findByIdAndUpdate(params.id, {
+        await Comment.findByIdAndUpdate(context.params.id, {
             $push: { replies: newComment._id }
         });
 
@@ -68,15 +62,12 @@ export async function POST(
     }
 }
 
-export async function DELETE(
-    request: Request,
-    { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
     try {
         await connectDb();
         
         // Mark comment as deleted instead of actually deleting it
-        await Comment.findByIdAndUpdate(params.id, { isDeleted: true });
+        await Comment.findByIdAndUpdate(context.params.id, { isDeleted: true });
 
         return NextResponse.json({ message: 'Comment deleted successfully' });
     } catch (error) {
@@ -86,4 +77,4 @@ export async function DELETE(
             { status: 500 }
         );
     }
-} 
+}

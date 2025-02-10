@@ -2,15 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
-interface Context {
-  params: {
-    id: string;
-  };
-}
-
-export async function GET(req: NextRequest, context: Context) {
+export async function GET(request: NextRequest) {
   try {
-    const { id } = context.params;
+    // Extract 'id' from the request URL
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'ID parameter is missing' },
+        { status: 400 }
+      );
+    }
+
     await connectDb();
 
     const replies = await Comment.find({ parentComment: id })
