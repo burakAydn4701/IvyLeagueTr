@@ -2,9 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDb from '@/lib/db';
 import Comment from '@/lib/models/comment';
 
+interface RouteContext {
+    params: {
+        id: string;
+    }
+}
+
 export async function GET(
-    request: NextRequest,
-    { params }: { params: { id: string } } & { searchParams?: { [key: string]: string | string[] } }
+    _request: NextRequest,
+    { params }: RouteContext
 ) {
     try {
         await connectDb();
