@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        astloch: ["Astloch"]
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
